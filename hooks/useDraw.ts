@@ -1,8 +1,11 @@
-import { useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void) => {
-
+    const [mouseDown, setMouseDown] = useState<boolean>(false);
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const prevPoint = useRef<null | Point>(null);
+
+    const onMouseDown = (): void => setMouseDown(true);
 
     useEffect(() => {
         const handler = (e: MouseEvent) => {
@@ -11,6 +14,9 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
             const ctx = canvasRef.current?.getContext('2d');
             // logic to check if exist
             if (!ctx || !currentPoint) return;
+            onDraw({ ctx, currentPoint, prevPoint: prevPoint.current });
+            // set previous point to current point for smooth drawing
+            prevPoint.current = currentPoint;
         };
 
         const computePointInCanvas = (e: MouseEvent) => {
@@ -31,5 +37,5 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
         return () => canvasRef.current?.addEventListener('mousemove', handler);
     }, []);
 
-    return { canvasRef };
+    return { canvasRef, onMouseDown };
 };

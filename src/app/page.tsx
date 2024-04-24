@@ -9,9 +9,9 @@ interface pageProps {
 
 const page: FC<pageProps> = ({}) => {
 
-  const { canvasRef } = useDraw();
+  const { canvasRef, onMouseDown } = useDraw(drawLine);
 
-  const drawLine = ({ prevPoint, currentPoint, ctx }: Draw) => {
+  function drawLine({ prevPoint, currentPoint, ctx }: Draw): void {
     const { x: currX, y: currY } = currentPoint;
     const lineColor = '#000';
     const lineWidth = 5;
@@ -35,6 +35,7 @@ const page: FC<pageProps> = ({}) => {
   return (
     <div className='w-screen h-screen bg-white flex justify-center item-center'>
       <canvas 
+        onMouseDown={onMouseDown}
         ref={canvasRef}
         width={750}
         height={750}
