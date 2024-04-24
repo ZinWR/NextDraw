@@ -1,12 +1,16 @@
 import { useEffect, useRef } from "react";
 
-export const useDraw = () => {
+export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void) => {
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
         const handler = (e: MouseEvent) => {
-            console.log({ x: e.clientX, y: e.clientY });
+            // console.log({ x: e.clientX, y: e.clientY });
+            const currentPoint = computePointInCanvas(e);
+            const ctx = canvasRef.current?.getContext('2d');
+            // logic to check if exist
+            if (!ctx || !currentPoint) return;
         };
 
         const computePointInCanvas = (e: MouseEvent) => {
