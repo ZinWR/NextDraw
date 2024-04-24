@@ -4,4 +4,6 @@ An app to draw :D
 
 # Tech Stack
 
-NextJS, ReactJS, TailwindCSS, Websocket
+**Front-end**: NextJS, ReactJS, TailwindCSS
+
+**Back-end**: NodeJS, Express, Websockets (Socket.io)
