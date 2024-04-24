@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { cursorTo } from "readline";
 
 export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void) => {
     const [mouseDown, setMouseDown] = useState<boolean>(false);
@@ -6,9 +7,14 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
     const prevPoint = useRef<null | Point>(null);
 
     const onMouseDown = (): void => setMouseDown(true);
+    const mouseUpHandler = () => {
+        setMouseDown(false);
+        prevPoint.current = null;
+    };
 
     useEffect(() => {
         const handler = (e: MouseEvent) => {
+            if (!mouseDown) return;
             // console.log({ x: e.clientX, y: e.clientY });
             const currentPoint = computePointInCanvas(e);
             const ctx = canvasRef.current?.getContext('2d');
@@ -32,10 +38,14 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
 
         // Add event listeners
         canvasRef.current?.addEventListener('mousemove', handler);
+        window.addEventListener('mouseup', mouseUpHandler);
 
         // Clean up for memory leak
-        return () => canvasRef.current?.addEventListener('mousemove', handler);
-    }, []);
+        return () => {
+            canvasRef.current?.removeEventListener('mousemove', handler);
+            window.removeEventListener('mouseup', mouseUpHandler);
+        }
+    }, [onDraw]);
 
     return { canvasRef, onMouseDown };
 };
