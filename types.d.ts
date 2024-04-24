@@ -11,3 +11,9 @@ type DrawLine = {
     prevPoint: Point | null
     color: string
 }
+
+type DrawLineProps = Draw & {
+    color: string
+  }
+
+export { Draw, Point, DrawLine, DrawLineProps }

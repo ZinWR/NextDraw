@@ -1,0 +1,1 @@
+self.__RSC_CSS_MANIFEST={"__entry_css__":{"/Users/quannguyen/Documents/Personal Projects/next-draw/client/app/page":["/Users/quannguyen/Documents/Personal Projects/next-draw/client/app/globals.css"]},"/Users/quannguyen/Documents/Personal Projects/next-draw/client/app/layout.tsx":["/Users/quannguyen/Documents/Personal Projects/next-draw/client/app/globals.css"]}
